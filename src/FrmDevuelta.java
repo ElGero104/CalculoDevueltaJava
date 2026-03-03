@@ -117,9 +117,9 @@ public class FrmDevuelta extends JFrame {
                     int cantidadNecesaria = (int) valorDevuelta / denominaciones[i]; /*Calcula la cantidad necesaria de la denominación actual para cubrir el valor de la devuelta*/
                     devuelta[i]=existencias[i] >= cantidadNecesaria? cantidadNecesaria : existencias[i]; /*Determina la cantidad de la denominación actual que se devolverá, considerando las existencias disponibles*/
                     valorDevuelta -= devuelta[i] * denominaciones[i]; /*Actualiza el valor de la devuelta restando el valor de la cantidad de la denominación actual que se devolverá*/
-                    
+
                 }
             }
         }
 
-}   
+} 

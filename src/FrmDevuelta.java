@@ -14,7 +14,8 @@ public class FrmDevuelta extends JFrame {
     int[] denominaciones= {100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50}; /*Array con las denominaciones de billetes y monedas*/
     int[] existencias=new int[denominaciones.length]; /*Array para almacenar las existencias de cada denominación*/
     JTextField txtDevuelta; /*Campo de texto para mostrar la devuelta calculada Variable Global*/
-    
+    String[] encabezados={"Cantidad","Presentación","Denominación"}; /*Array con los encabezados de la tabla para mostrar el desglose de la devuelta por denominación*/
+    JTable tblDevuelta; /*Tabla para mostrar el desglose de la devuelta por denominación Variable Global*/
     public FrmDevuelta() {
         setSize(400, 300);
         setTitle("Calculo de devuelta");
@@ -63,11 +64,11 @@ public class FrmDevuelta extends JFrame {
         add(btnDevuelta); /*Agrega el botón al formulario*/
 
 
-        JTable tblDevuelta=new JTable(); /*Tabla para mostrar el desglose de la devuelta por denominación*/
+        tblDevuelta=new JTable(); /*Tabla para mostrar el desglose de la devuelta por denominación*/
         JScrollPane scrollPane=new JScrollPane(tblDevuelta); /*ScrollPane para contener la tabla*/
         scrollPane.setBounds(10, 120, 370, 200); /*Ubicación del ScrollPane*/
         add(scrollPane); /*Agrega el ScrollPane (y la tabla) al formulario*/
-        String[] encabezados={"Cantidad","Presentación","Denominación"}; /*Encabezados para la tabla*/
+        
         DefaultTableModel modelo=new DefaultTableModel(null,encabezados); /*Modelo de tabla para manejar los datos de la tabla*/
         tblDevuelta.setModel(modelo); /*Asigna el modelo a la tabla*/
         
@@ -117,8 +118,35 @@ public class FrmDevuelta extends JFrame {
                     int cantidadNecesaria = (int) valorDevuelta / denominaciones[i]; /*Calcula la cantidad necesaria de la denominación actual para cubrir el valor de la devuelta*/
                     devuelta[i]=existencias[i] >= cantidadNecesaria? cantidadNecesaria : existencias[i]; /*Determina la cantidad de la denominación actual que se devolverá, considerando las existencias disponibles*/
                     valorDevuelta -= devuelta[i] * denominaciones[i]; /*Actualiza el valor de la devuelta restando el valor de la cantidad de la denominación actual que se devolverá*/
-
+                    if (valorDevuelta == 0) { /*Si el valor de la devuelta se ha cubierto completamente, sale del ciclo*/
+                        break;
+                    }   
                 }
+            }
+
+            int totalDenominacionesNecesarias = 0; /*Variable para contar el total de denominaciones necesarias para cubrir la devuelta*/
+            for (int d: devuelta) {
+                if (d > 0) {
+                    totalDenominacionesNecesarias ++; /*Incrementa el contador de denominaciones necesarias cada vez que se encuentra una denominación con cantidad mayor a cero*/
+                }
+            }
+
+            String [][] resultado = new String[totalDenominacionesNecesarias][3]; /*Array para almacenar el resultado del desglose de la devuelta por denominación, con el tamaño basado en el total de denominaciones necesarias*/
+        
+            int fila = 0;
+            for (int i = 0; i < denominaciones.length; i++) {
+                if (devuelta[i] > 0) {
+                    resultado[fila][0]=String.valueOf(devuelta[i]); /*Almacena la cantidad de la denominación actual que se devolverá en el resultado*/
+                    resultado[fila][1]=denominaciones[i] >= 1000? "Billete" : "Moneda"; /*Determina si la denominación actual es un billete o una moneda y lo almacena en el resultado*/
+                    resultado[fila][2]=String.valueOf(denominaciones[i]); /*Almacena el valor de la denominación actual en el resultado*/
+                    fila++; /*Incrementa el índice de fila para el resultado*/
+                }
+             }
+            DefaultTableModel modelo=new DefaultTableModel(resultado,encabezados);
+            tblDevuelta.setModel(modelo);
+
+            if (valorDevuelta > 0) { /*Si después de calcular la devuelta aún queda un valor pendiente por cubrir, muestra un mensaje de error al usuario indicando que no se puede devolver el monto completo con las existencias disponibles*/
+                JOptionPane.showMessageDialog(null, "Queda pendiente un monto de: $" + valorDevuelta);
             }
         }
 

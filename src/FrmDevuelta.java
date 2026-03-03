@@ -13,6 +13,9 @@ public class FrmDevuelta extends JFrame {
     JTextField txtExistencia; /*Campo de texto para ingresar la cantidad de existencias de la denominación seleccionada Variable Global*/
     int[] denominaciones= {100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50}; /*Array con las denominaciones de billetes y monedas*/
     int[] existencias=new int[denominaciones.length]; /*Array para almacenar las existencias de cada denominación*/
+    JTable tblDevuelta; /*Tabla para mostrar el desglose de la devuelta por denominación Variable Global*/
+    DefaultTableModel modelo; /*Modelo de tabla para manejar los datos de la tabla Variable Global*/
+
     public FrmDevuelta() {
         setSize(400, 300);
         setTitle("Calculo de devuelta");
@@ -61,17 +64,15 @@ public class FrmDevuelta extends JFrame {
         add(btnDevuelta); /*Agrega el botón al formulario*/
 
 
-        JTable tblDevuelta=new JTable(); /*Tabla para mostrar el desglose de la devuelta por denominación*/
+        tblDevuelta=new JTable(); /*Tabla para mostrar el desglose de la devuelta por denominación*/
         JScrollPane scrollPane=new JScrollPane(tblDevuelta); /*ScrollPane para contener la tabla*/
         scrollPane.setBounds(10, 120, 370, 200); /*Ubicación del ScrollPane*/
         add(scrollPane); /*Agrega el ScrollPane (y la tabla) al formulario*/
-
-
         String[] encabezados={"Cantidad","Presentación","Denominación"}; /*Encabezados para la tabla*/
-
-
-        DefaultTableModel modelo=new DefaultTableModel(null,encabezados); /*Modelo de tabla para manejar los datos de la tabla*/
+        modelo=new DefaultTableModel(null,encabezados); /*Modelo de tabla para manejar los datos de la tabla*/
         tblDevuelta.setModel(modelo); /*Asigna el modelo a la tabla*/
+        
+        
 
 
         /*Eventos*/
@@ -99,6 +100,7 @@ public class FrmDevuelta extends JFrame {
             }
         }  
 
+        
 
         private void actualizarExistencia() {
             if (cmbDenominacion.getSelectedIndex() >= 0){

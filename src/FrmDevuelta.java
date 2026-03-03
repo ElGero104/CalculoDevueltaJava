@@ -13,9 +13,8 @@ public class FrmDevuelta extends JFrame {
     JTextField txtExistencia; /*Campo de texto para ingresar la cantidad de existencias de la denominación seleccionada Variable Global*/
     int[] denominaciones= {100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50}; /*Array con las denominaciones de billetes y monedas*/
     int[] existencias=new int[denominaciones.length]; /*Array para almacenar las existencias de cada denominación*/
-    JTable tblDevuelta; /*Tabla para mostrar el desglose de la devuelta por denominación Variable Global*/
-    DefaultTableModel modelo; /*Modelo de tabla para manejar los datos de la tabla Variable Global*/
-
+    JTextField txtDevuelta; /*Campo de texto para mostrar la devuelta calculada Variable Global*/
+    
     public FrmDevuelta() {
         setSize(400, 300);
         setTitle("Calculo de devuelta");
@@ -54,7 +53,7 @@ public class FrmDevuelta extends JFrame {
         add(lblDevuelta); /*Agrega la etiqueta al formulario*/
 
 
-        JTextField txtDevuelta=new JTextField(); /*Campo de texto para mostrar la devuelta calculada*/
+        txtDevuelta=new JTextField(); /*Campo de texto para mostrar la devuelta calculada*/
         txtDevuelta.setBounds(120, 80, 100, 25); /*Ubicación del campo de texto*/
         add(txtDevuelta); /*Agrega el campo de texto al formulario*/
 
@@ -64,12 +63,12 @@ public class FrmDevuelta extends JFrame {
         add(btnDevuelta); /*Agrega el botón al formulario*/
 
 
-        tblDevuelta=new JTable(); /*Tabla para mostrar el desglose de la devuelta por denominación*/
+        JTable tblDevuelta=new JTable(); /*Tabla para mostrar el desglose de la devuelta por denominación*/
         JScrollPane scrollPane=new JScrollPane(tblDevuelta); /*ScrollPane para contener la tabla*/
         scrollPane.setBounds(10, 120, 370, 200); /*Ubicación del ScrollPane*/
         add(scrollPane); /*Agrega el ScrollPane (y la tabla) al formulario*/
         String[] encabezados={"Cantidad","Presentación","Denominación"}; /*Encabezados para la tabla*/
-        modelo=new DefaultTableModel(null,encabezados); /*Modelo de tabla para manejar los datos de la tabla*/
+        DefaultTableModel modelo=new DefaultTableModel(null,encabezados); /*Modelo de tabla para manejar los datos de la tabla*/
         tblDevuelta.setModel(modelo); /*Asigna el modelo a la tabla*/
         
 
@@ -108,11 +107,19 @@ public class FrmDevuelta extends JFrame {
             }
         }
 
-
         private void calcularDevuelta() {
-            // Lógica para calcular la devuelta y actualizar la tabla con el desglose por denominación
-            JOptionPane.showMessageDialog(null, "Devuelta calculada correctamente."); /*Muestra un mensaje de confirmación al usuario*/
+            int valorDevuelta= Integer.parseInt(txtDevuelta.getText()); /*Limpia el campo de texto de la devuelta antes de calcularla*/
+
+            int [] devuelta=new int[denominaciones.length]; /*Array para almacenar la cantidad de cada denominación que se devolverá*/
+
+            for (int i = 0; i < denominaciones.length; i++){ /*Itera sobre el array de denominaciones para calcular la cantidad de cada una que se devolverá*/
+                if (valorDevuelta >= denominaciones[i]){
+                    int cantidadNecesaria = (int) valorDevuelta / denominaciones[i]; /*Calcula la cantidad necesaria de la denominación actual para cubrir el valor de la devuelta*/
+                    devuelta[i]=existencias[i] >= cantidadNecesaria? cantidadNecesaria : existencias[i]; /*Determina la cantidad de la denominación actual que se devolverá, considerando las existencias disponibles*/
+                    valorDevuelta -= devuelta[i] * denominaciones[i]; /*Actualiza el valor de la devuelta restando el valor de la cantidad de la denominación actual que se devolverá*/
+                    
+                }
+            }
         }
 
-         
-}
+}   

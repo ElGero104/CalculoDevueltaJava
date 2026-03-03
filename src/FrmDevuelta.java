@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+
 public class FrmDevuelta extends JFrame {
     JComboBox cmbDenominacion; /*ComboBox para seleccionar la denominación del billete o moneda Variable Global*/
     JTextField txtExistencia; /*Campo de texto para ingresar la cantidad de existencias de la denominación seleccionada Variable Global*/
@@ -84,7 +85,7 @@ public class FrmDevuelta extends JFrame {
         });
 
         cmbDenominacion.addActionListener(e -> {
-            consultarExistencia();
+            consultarExistencia();/*Llama al método para consultar la existencia de la denominación seleccionada y actualizar el campo de texto correspondiente cada vez que se selecciona una nueva denominación en el ComboBox*/
         });
         
     }

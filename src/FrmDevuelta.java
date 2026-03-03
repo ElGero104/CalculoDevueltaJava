@@ -72,7 +72,20 @@ public class FrmDevuelta extends JFrame {
         modelo=new DefaultTableModel(null,encabezados); /*Modelo de tabla para manejar los datos de la tabla*/
         tblDevuelta.setModel(modelo); /*Asigna el modelo a la tabla*/
         
+<<<<<<< HEAD
         
+=======
+        for (int i = 0; i < denominaciones.length; i++) {
+
+            String tipo = (denominaciones[i] >= 1000) ? "Billete" : "Moneda";
+
+            modelo.addRow(new Object[]{
+                0, // cantidad inicial
+                tipo,
+                denominaciones[i]
+            });
+        }
+>>>>>>> b7d655115d5c453ed72b3d469ca8217b0eb43ed5
 
 
         /*Eventos*/

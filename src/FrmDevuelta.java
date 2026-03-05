@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
-public class FrmDevuelta extends JFrame {
+public class FrmDevuelta extends JFrame { /*Clase que representa el formulario para calcular la devuelta, hereda de JFrame para crear una ventana gráfica*/
     JComboBox cmbDenominacion; /*ComboBox para seleccionar la denominación del billete o moneda Variable Global*/
     JTextField txtExistencia; /*Campo de texto para ingresar la cantidad de existencias de la denominación seleccionada Variable Global*/
     int[] denominaciones= {100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50}; /*Array con las denominaciones de billetes y monedas*/
@@ -18,10 +18,10 @@ public class FrmDevuelta extends JFrame {
     String[] encabezados={"Cantidad","Presentación","Denominación"}; /*Array con los encabezados de la tabla para mostrar el desglose de la devuelta por denominación*/
     JTable tblDevuelta; /*Tabla para mostrar el desglose de la devuelta por denominación Variable Global*/
     public FrmDevuelta() {
-        setSize(400, 300);
-        setTitle("Calculo de devuelta");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
+        setSize(400, 300); /*Establece el tamaño de la ventana*/
+        setTitle("Calculo de devuelta"); /*Establece el título de la ventana*/
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); /*Configura la operación de cierre de la ventana para que termine la aplicación cuando se cierre la ventana*/
+        setLayout(null); /*Establece el layout del formulario a null para poder posicionar los componentes manualmente*/
 
 
         JLabel lblDenominacion = new JLabel("Denominación:"); /*Etiqueta para la denominación del billete o moneda*/
